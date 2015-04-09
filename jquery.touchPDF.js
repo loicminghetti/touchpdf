@@ -1,6 +1,6 @@
 /*
 * @fileOverview TouchPDF - jQuery Plugin
-* @version 0.1
+* @version 0.2
 *
 * @author Loic Minghetti http://www.loicminghetti.net
 * @see https://github.com/loicminghetti/TouchPDF-Jquery-Plugin
@@ -8,14 +8,6 @@
 *
 * Copyright (c) 2014-2015 Loic Minghetti
 * Dual licensed under the MIT or GPL Version 2 licenses.
-*
-*/
-
-/*
-*
-* Changelog
-* $Date: 2015-03-13 $
-* $version: 1.0.0
 *
 */
 
@@ -64,11 +56,26 @@
 	* @name $.fn.pdf.defaults
 	* @namespace
 	* @property {string} [source=""] Path of PDF file to display
+	* @property {string} [title="TouchPDF"] Title of the PDF to be displayed in the toolbar
+	* @property {array} [tabs=[]] Array of tabs to display on the side. See doc for syntax.
+	* @property {string} [tabsColor="beige" Default background color for all tabs. Available colors are "green", "yellow", "orange", "brown", "blue", "white", "black" and you can define your own colors with CSS.
+	* @property {boolean} [disableZoom=false] Disable zooming of PDF document. By default, PDF can be zoomed using scroll, two fingers pinch, +/- keys, and toolbar buttons
+	* @property {boolean} [disableSwipe=false] Disable swipe to next/prev page of PDF document. By default, PDF can be swiped using one finger
+	* @property {boolean} [disableLinks=false] Disable all internal and external links on PDF document
+	* @property {boolean} [disableKeys=false] Disable the arrow keys for next/previous page and +/- for zooming (if zooming is enabled)
+	* @property {boolean} [redrawOnWindowResize=true] Force resize of PDF viewer on window resize
+	* @property {boolean} [showToolbar=true] Show a toolbar on top of the document with title, page number and buttons for next/prev pages and zooming
+	* @property {function} [loaded=null] A handler triggered when PDF document is loaded (before display of first page)
+	* @property {function} [changed=null] A handler triggered each time a new page is displayed
+	* @property {string} [loadingHTML="Loading PDF"] Text or HTML displayed on white page shown before document is loaded 
+	* @property {function} [loadingHeight=841] Height in px of white page shown before document is loaded 
+	* @property {function} [loadingWidth=595] Width in px of white page shown before document is loaded 
 	*/
 	var defaults = {
-		windowTitle: false, 		
 		source: null,
 		title: "TouchPDF",
+		tabs: [],
+		tabsColor: "beige",
 		disableZoom: false,
 		disableSwipe: false,
 		disableLinks: false,
@@ -475,6 +482,7 @@
 				if (totalPages < 1) return;
 				
 				state = LOADED;
+				if (options.loaded) options.loaded()
 				goto(1);
 			});
 			
@@ -516,7 +524,8 @@
 					}
 					
 					if (tab.title.length > 2) $a.addClass("large");
-					if (tab.color) $a.addClass(tab.color);
+					if (!tab.color) tab.color = options.tabsColor;
+					$a.addClass(tab.color);
 					if (tab.height) {
 						$a.css("height", tab.height);
 						$span.css("width", tab.height);
@@ -571,6 +580,8 @@
 				$element.find(".pdf-loading").hide();
 				$element.find(".pdf-tabs").css("visibility", "visible");
 				$element.find("canvas").css("visibility", "visible");
+
+				if (options.changed) options.changed();
 
 			});
 		}
