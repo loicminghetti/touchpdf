@@ -1,0 +1,193 @@
+.touchPDF {
+	overflow: hidden;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
+    font-family: arial, verdana, sans-serif;
+    font-size: 16px;
+}
+
+.touchPDF,
+.touchPDF *,
+.touchPDF *:before,
+.touchPDF *:after {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+
+.touchPDF > .pdf-outerdiv {
+    position: relative;
+    transform-origin: 0 0 0;
+}
+
+.touchPDF > .pdf-outerdiv > div {
+	position: absolute;
+	top : 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+.touchPDF > .pdf-outerdiv > .pdf-tabs {
+	visibility: hidden;
+}
+
+.touchPDF > .pdf-outerdiv > .pdf-toolbar {
+    height: 0;
+    color: white;
+    padding: 5px 0;
+    text-align: right;
+}
+.touchPDF > .pdf-outerdiv > .pdf-toolbar > .pdf-title {
+    cursor: pointer;
+	display: inline-block;
+	float: left;
+    font-weight: bold;
+}
+.touchPDF > .pdf-outerdiv > .pdf-toolbar > .pdf-button {
+    display: inline-block;
+}
+.touchPDF > .pdf-outerdiv > .pdf-toolbar > .pdf-button > .pdf-page-count {
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.touchPDF > .pdf-outerdiv > .pdf-viewer {
+    border: 0px solid #404040;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.4); 
+    z-index: 2000;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-drag {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-drag  canvas {
+    visibility: hidden;
+}
+
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-drag  .pdf-annotations {
+    position: absolute;
+	top: 0;
+	left: 0;
+    z-index: 2500;
+}
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-loading {
+    position: absolute;
+	top: 60px;
+	left: 0px;
+    width: 100%;
+    z-index: 3000;
+    text-align: center;
+    vertical-align: middle;
+    color: #CCCCCC;
+}
+
+
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-drag  .pdf-annotations > .annotLink > a {
+    font-size: 1em;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-drag .pdf-annotations > .annotLink > a {
+    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAA LAAAAAABAAEAAAIBRAA7") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.touchPDF > .pdf-outerdiv > .pdf-viewer > .pdf-drag  .pdf-annotations > .annotLink > a:hover {
+    background: none repeat scroll 0 0 #ff0;
+    box-shadow: 0 2px 10px #ff0;
+    opacity: 0.2;
+}
+
+
+
+
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab {
+    position: absolute;
+	left: 0;
+    display: block;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5); 
+	border-style: solid;
+	border-color: #404040;
+    border-width: 1px 0 1px 1px;
+    border-radius: 12px 0 0 12px;
+	background-color: #FAE5A7;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.right {
+    border-radius: 0 12px 12px 0;
+    border-width: 1px 1px 1px 0;
+	left: auto;
+	right: 0;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab, .touchPDF > .pdf-outerdiv > .pdf-tabs > .tab:hover {
+    text-decoration: none;
+    color: black;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab span, .touchPDF > .pdf-outerdiv > .pdf-tabs > .tab:hover span {
+	position: absolute;
+    top: 17px;
+	left: 10px;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+	line-height: 12px;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.right span {
+    top: 17px;
+	left: auto;
+	right: 10px;
+}
+
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.large {
+    height: 140px;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.large span {
+	top: auto;
+	bottom: -20px;
+    transform: rotate(270deg);
+	-ms-transform:rotate(270deg);
+    transform-origin: 0 0 0;
+    width: 140px;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.large.right span {
+    transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+    transform-origin: 100% 0 0;
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.green {
+    background-color: #79B550;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.blue {
+    background-color: #2A9892;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.brown {
+    background-color: #9C8852;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.yellow {
+    background-color: #EBB600;
+}
+.touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.orange {
+    background-color: #EBA500;
+}
+
+

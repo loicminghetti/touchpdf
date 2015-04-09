@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TouchPDF</title>
+  <link href="../jquery.touchPDF.css" rel="stylesheet" media="screen" />
+	<style>
+		body , html{
+			background-color: #404040;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+
+<div id="myPDF" style="height: 95%; width: 95%; margin: auto;"></div>
+
+
+<script type="text/javascript" src="../pdf.compatibility.js"></script>
+<script type="text/javascript" src="../pdf.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.touchSwipe.js"></script>
+<script type="text/javascript" src="../jquery.touchPDF.js"></script>
+<script type="text/javascript" src="../jquery.panzoom.js"></script>
+<script type="text/javascript" src="../jquery.mousewheel.js"></script>
+
+<script type="text/javascript">
+	
+	$(function() {
+		$("#myPDF").pdf( {
+			source: "demo.pdf",
+			tabs: [
+				{title: "Section 1", page: 2, color: "orange"},
+				{title: "Section 2", page: 3, color: "green"},
+				{title: "Section 3", page: 5, color: "blue"},
+			]
+		} );
+	});
+
+</script>
+</body>
+</html>
