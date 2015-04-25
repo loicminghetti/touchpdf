@@ -1,7 +1,5 @@
 .touchPDF {
 	overflow: hidden;
-	-moz-user-select: -moz-none;
-	-khtml-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
@@ -22,6 +20,8 @@
 
 .touchPDF > .pdf-outerdiv {
     position: relative;
+    -webkit-transform-origin: 0 0 0;
+    -ms-transform-origin: 0 0 0;
     transform-origin: 0 0 0;
 }
 
@@ -162,15 +162,21 @@
 .touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.large span {
 	top: auto;
 	bottom: -20px;
-    transform: rotate(270deg);
-	-ms-transform:rotate(270deg);
+    -webkit-transform-origin: 0 0 0;
+    -ms-transform-origin: 0 0 0;
     transform-origin: 0 0 0;
+    -webkit-transform:rotate(270deg);
+    -ms-transform:rotate(270deg);
+    transform: rotate(270deg);
     width: 140px;
 }
 .touchPDF > .pdf-outerdiv > .pdf-tabs > .tab.large.right span {
-    transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
+    -webkit-transform-origin: 100% 0 0;
+    -ms-transform-origin: 100% 0 0;
     transform-origin: 100% 0 0;
+    -webkit-transform:rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
 

@@ -1,6 +1,6 @@
 /*
 * @fileOverview TouchPDF - jQuery Plugin
-* @version 0.2
+* @version 0.3
 *
 * @author Loic Minghetti http://www.loicminghetti.net
 * @see https://github.com/loicminghetti/TouchPDF-Jquery-Plugin
@@ -80,6 +80,7 @@
 		disableSwipe: false,
 		disableLinks: false,
 		disableKeys: false,
+		pdfScale: 1,
 		redrawOnWindowResize: true,
 		showToolbar: true,
 		loaded: null,
@@ -357,19 +358,6 @@
 			$drag = $element.find(".pdf-drag");
 			$viewer = $element.find(".pdf-viewer");
 			
-			if (!options.disableSwipe) {
-				$viewer.swipe( {
-					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-						if (state != LOADED) return;
-						linksDisabled = true;
-		      			setTimeout(function() {linksDisabled = false;}, 1);
-						if (direction == "right") goto(pageNum-1);
-						else if (direction == "left") goto(pageNum+1);
-					},
-					threshold:50,
-					excludedElements: ".noSwipe"
-				});
-			}
 			
 			if (!options.disableKeys) {
 				$(window).keydown(function(event) {
@@ -392,18 +380,24 @@
 
           		$drag.panzoom({
           			contain: 'invert',
-          			minScale: 1,  
+          			minScale: 1, 
+          			disablePan: true,
           			increment: 0.25,
           			maxScale: 2,
           			onChange: function() {
           				linksDisabled = true;
+          				$drag.panzoom("option", "disablePan", false);
+						state = ZOOMEDIN;
           			},
           			onEnd: function() {
-          				setTimeout(function() {linksDisabled = false;}, 1);
+          				setTimeout(function() {
+          					linksDisabled = false;
+							if ($drag.panzoom("getMatrix")[0] == 1) zoomReset();
+          				}, 1);
           			}
 
     			});
-          		$drag.panzoom('disable');
+          		$drag.panzoom('enable');
 
 				$drag.parent().on('mousewheel.focal', function( e ) {
 					e.preventDefault();
@@ -422,9 +416,39 @@
 					});
 				}
 
-
+				if (!options.disableLinks) {
+					// enable links while zoomed in
+					var touchlink = null;
+					$drag.on('touchstart', "a", function( e ) {
+						touchlink = this;
+						setTimeout(function() {
+							touchlink = null;
+						}, 100);
+					});	
+					$drag.on('touchend', "a", function( e ) {
+						if (this == touchlink) {
+					  		e.stopImmediatePropagation();
+							this.click();
+						}
+					});
+				}
 			}
 					
+
+			if (!options.disableSwipe) {
+				$viewer.swipe( {
+					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+						if (state != LOADED) return;
+						linksDisabled = true;
+		      			setTimeout(function() {linksDisabled = false;}, 1);
+						if (direction == "right") goto(pageNum-1);
+						else if (direction == "left") goto(pageNum+1);
+					},
+					threshold:50,
+					excludedElements: ".noSwipe"
+				});
+			}
+
 			canvas = $element.find("canvas")[0];
 			ctx = canvas.getContext('2d');
 			
@@ -436,20 +460,19 @@
 		}
 
 		function zoomIn (focal) {
+			if (options.disableZoom) return;
 			if (state != ZOOMEDIN && state != LOADED) return;
 			state = ZOOMEDIN;
-			$viewer.swipe('disable');
-			$drag.panzoom('enable');
 			$drag.panzoom('zoom', false, {
 				increment: 0.25,
 				animate: true,
 				focal: focal
 			});
 			linksDisabled = false;
-
 		}
 
 		function zoomOut(focal) {
+			if (options.disableZoom) return;
 			if (state != ZOOMEDIN) return;
 			$drag.panzoom('zoom', true, {
 				increment: 0.25,
@@ -461,12 +484,11 @@
 			if ($drag.panzoom("getMatrix")[0] == 1) zoomReset();
 		}
 		function zoomReset() {
-			if (state != ZOOMEDIN) return;
-			state = LOADED;
+			if (options.disableZoom) return;
 			$drag.panzoom('reset');
-			$drag.panzoom('disable');
 			linksDisabled = false;
-			$viewer.swipe('enable');
+			$drag.panzoom("option", "disablePan", true);
+			state = LOADED;
 		}
 
 		/**
@@ -553,7 +575,7 @@
 
 			// Using promise to fetch the page
 			pdfDoc.getPage(pageNumRendering).then(function(page) {
-				var viewport = page.getViewport(1); // @todo: adapt pdf scale to view scale
+				var viewport = page.getViewport(options.pdfScale); // @todo: adapt pdf scale to view scale
 				canvas.height = viewport.height;
 				canvas.width = viewport.width;
 
@@ -622,7 +644,10 @@
 				.css("left", tabWidth)
 				.css("top", TOOLBAR_HEIGHT)
 				.css("border-width", BORDER_WIDTH);
-				
+
+			$drag
+				.css("width", pdfWidth)
+				.css("height", pdfHeight);
 
 			if (!options.disableZoom) {
 				$drag.panzoom('resetDimensions');
