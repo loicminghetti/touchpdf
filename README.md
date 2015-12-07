@@ -9,9 +9,7 @@ TouchPDF is a simple web PDF viewer for jQuery. It is based on the pdf.js librar
 -	Loads directly in your DOM, without iFrame
 
 ## Supported browsers
-Firefox, Chrome, Opera, IE >= 9
-
-Other browsers that will be supported in the near future: Android and Safari
+Firefox, Chrome, Opera, IE >= 9, Safari, Android Browser
 
 ## Demo
 Check out the online demo at: http://touchpdf.net/demo/index.htm
@@ -29,6 +27,7 @@ Note: you need to start a local web server as some browsers don't allow opening 
 ###Usage
 Add the following to your document's `<head>`
 ````html
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="pdf.compatibility.js"></script>
 <script type="text/javascript" src="pdf.js"></script>
