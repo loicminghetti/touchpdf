@@ -80,6 +80,8 @@ disableSwipe | *boolean* | false | Disable swipe to next/prev page of PDF docume
 disableLinks | *boolean* | false | Disable all internal and external links on PDF document..
 disableKeys | *boolean* | false | Disable the arrow keys for next/previous page and +/- for zooming (if zooming is enabled).
 redrawOnWindowResize | *boolean* | true | Force resize of PDF viewer on window resize.
+pdfScale | *float* | 1 | Defines the ratio between your PDF page size and the tabs size.
+quality | *float* | 2 | Set quality ratio for loaded PDF pages. Set at 2 for sharp display when user zooms up to 200%.
 showToolbar | *boolean* | true | Show a toolbar on top of the document with title, page number and buttons for next/prev pages and zooming.
 loaded | *function* | null | A handler triggered when PDF document is loaded (before display of first page).
 changed | *function* | null | A handler triggered each time a new page is displayed.

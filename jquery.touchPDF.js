@@ -1,12 +1,12 @@
 /*
 * @fileOverview TouchPDF - jQuery Plugin
-* @version 0.3
+* @version 0.4
 *
 * @author Loic Minghetti http://www.loicminghetti.net
 * @see https://github.com/loicminghetti/TouchPDF-Jquery-Plugin
 * @see http://plugins.jquery.com/project/touchPDF
 *
-* Copyright (c) 2014-2015 Loic Minghetti
+* Copyright (c) 2014 Loic Minghetti
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
 */
@@ -64,6 +64,8 @@
 	* @property {boolean} [disableLinks=false] Disable all internal and external links on PDF document
 	* @property {boolean} [disableKeys=false] Disable the arrow keys for next/previous page and +/- for zooming (if zooming is enabled)
 	* @property {boolean} [redrawOnWindowResize=true] Force resize of PDF viewer on window resize
+	* @property {float} [pdfScale=1] Defines the ratio between your PDF page size and the tabs size
+	* @property {float} [quality=2] Set quality ratio for loaded PDF pages. Set at 2 for sharp display when user zooms up to 200%
 	* @property {boolean} [showToolbar=true] Show a toolbar on top of the document with title, page number and buttons for next/prev pages and zooming
 	* @property {function} [loaded=null] A handler triggered when PDF document is loaded (before display of first page)
 	* @property {function} [changed=null] A handler triggered each time a new page is displayed
@@ -81,6 +83,7 @@
 		disableLinks: false,
 		disableKeys: false,
 		pdfScale: 1,
+		quality: 2,
 		redrawOnWindowResize: true,
 		showToolbar: true,
 		loaded: null,
@@ -327,8 +330,10 @@
 				 + '<div class="pdf-viewer">'
 					+ '<div class="pdf-loading">'+options.loadingHTML+'</div>'
 					+ '<div class="pdf-drag">'
-						+ '<canvas></canvas>'
-						+ '<div class="pdf-annotations"></div>'
+						+ '<div class="pdf-canvas">'
+							+ '<canvas></canvas>'
+							+ '<div class="pdf-annotations"></div>'
+						+ '</div>'
 				 	+ '</div>'
 				 + '</div>'
 				+ '</div>');
@@ -575,9 +580,10 @@
 
 			// Using promise to fetch the page
 			pdfDoc.getPage(pageNumRendering).then(function(page) {
-				var viewport = page.getViewport(options.pdfScale); // @todo: adapt pdf scale to view scale
+				var viewport = page.getViewport(options.pdfScale*options.quality);
 				canvas.height = viewport.height;
 				canvas.width = viewport.width;
+				$(".pdf-canvas").css("transform", "scale("+(1/options.quality)+")").css("transform-origin", "top left");
 
 				// Render PDF page into canvas context
 				var renderTask = page.render({
@@ -616,8 +622,8 @@
 				var pdfWidth = options.loadingWidth;
 
 			} else {
-				var pdfHeight = canvas.height;
-				var pdfWidth = canvas.width;
+				var pdfHeight = canvas.height / options.quality;
+				var pdfWidth = canvas.width / options.quality;
 			}
 			var winHeight = $element.height();
 			var winWidth = $element.width();
