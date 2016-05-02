@@ -251,6 +251,7 @@
 		* @example $("#element").pdf("redraw");
 		*/
 		this.redraw = function () {
+			redraw();
 			return $element;
 		};
 
