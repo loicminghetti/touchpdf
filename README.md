@@ -16,7 +16,7 @@ Check out the online demo at: http://touchpdf.net/demo/index.htm
 
 ## Getting started
 
-###Get the jQuery plugin
+### Get the jQuery plugin
 To get a local copy of the plugin, clone it using git:
 ````bash
 $ git clone git:// github.com/loicminghetti/touchpdf.git touchpdf
@@ -24,7 +24,7 @@ $ cd touchpdf
 ````
 Note: you need to start a local web server as some browsers don't allow opening PDF files for a file:// url.
 
-###Usage
+### Usage
 Add the following to your document's `<head>`
 ````html
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -66,7 +66,7 @@ $(function() {
 });
 ````
 
-###Viewer options
+### Viewer options
 
 Option | Type | Default | Description
 ------ | ---- | ------- | ----------------------
@@ -88,7 +88,7 @@ loadingHTML | *string* | "Loading PDF" | Text or HTML displayed on white page sh
 loadingHeight | *int* | 841 | Height in px of white page shown before document is loaded (default is A4 height).
 loadingWidth | *int* | 595 | Width in px of white page shown before document is loaded (default is A4 width).
 
-###Tab attributes
+### Tab attributes
 
 Each tab must be defined using a json object with the following attributes:
 
