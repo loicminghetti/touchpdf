@@ -263,7 +263,7 @@
 		*/
 		this.destroy = function () {
 			$element.empty().removeClass("touchPDF");
-			
+			pdfDoc.destroy();
 		};
 
 		/**
